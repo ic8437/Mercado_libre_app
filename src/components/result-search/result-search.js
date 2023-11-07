@@ -35,7 +35,7 @@ function ResultsComponent() {
                     <Link to={`/detail/${result.id}`}><img className='result__image' src={result.thumbnail} alt="Logo descripcion imagen"/></Link>
                     </div>
                     <div className='result__description'>
-                        {result.price.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' }).replace(/\,00$/, '').split(',')[0]} <br/>
+                        {result.price.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' }).replace(/,00$/, '').split(',')[0]} <br/>
                         {result.title}
                     </div> 
                     <div className='result__addres'>
