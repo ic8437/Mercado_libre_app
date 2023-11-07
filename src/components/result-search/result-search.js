@@ -3,9 +3,7 @@ import '../../assets/styles/style.scss';
 import { Link } from 'react-router-dom';
 
 function ResultsComponent({ results }) {
-    console.log('enta resultados', results)
     const firstFourResults = results.slice(0, 4);
-    console.log(firstFourResults);
     return (
         <div className='result__body'>
         {firstFourResults.map((result) => (
