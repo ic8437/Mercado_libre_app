@@ -3,34 +3,38 @@ import SearchComponent from '../../components/search/search';
 import ProductDetailComponent from '../../components/productdetai/product-detail';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import ResultsComponent from '../../components/result-search/result-search';
 
 function DetailPage({ match }) {
   const itemId = match.params.id;
   const history = useHistory();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [showResults, setShowResults] = useState(false);
-
+  let showResults = false
+  let showDetail = true
+  let searchQuery
+    
   const handleSearch = (query) => {
-    axios.get(`https://api.mercadolibre.com/sites/MLA/search?q=${query}`)
-      .then(response => {
-        setSearchResults(response.data.results);
-        setShowResults(true); 
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-      });
-    history.push(`/items?search=${query}`);
+    searchQuery = query;
+    if (query === 'query_inicial') {
+        showResults= false;
+        showDetail = true;
+    }else{
+        searchQuery = query;
+        showResults = true;
+        showDetail = false;
+        history.push(`/items?search=${searchQuery}`);
+    }
   };
-  return (
+
+  useEffect(() => {
+    showResults = false;
+    showDetail = true;
+  })
+
+  return ( 
     <div>
-      <SearchComponent
-        onSearch={handleSearch}
-        onQueryChange={(query) => setSearchQuery(query)}
-      />
-      <ProductDetailComponent
-        productDetails={itemId}
-      />
+      <SearchComponent onSearch={handleSearch} />
+      {showDetail && <ProductDetailComponent productDetails={itemId} />}
+      {showResults && <ResultsComponent results={searchQuery} />}
     </div>
   );
 }
